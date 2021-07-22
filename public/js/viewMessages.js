@@ -4,24 +4,31 @@ const getMessages = () => {
     const messagesRef = firebase.database().ref();
     
     messagesRef.on('value', (snapshot)=> {
-        numAttemptsRemaining=numAttemptsRemaining-1;
+        numAttemptsRemaining-=1;
         const passcode_obj = document.querySelector("#passcode");
-           const submitButton =  document.querySelector("#viewMsg")
+        const submitButton =  document.querySelector("#viewMsg")
         if(numAttemptsRemaining<=0){
             //disable input
-            console.log("done");
+            console.log("done");s
             passcode_obj.disabled = true;
            submitButton.disabled = true;
         }
         const data = snapshot.val()
      
-        const passcode = passcode_obj.value.toLowerCase();
-        const keys = Object.keys(data);
-        if(keys.indexOf(passcode)>-1){
-            document.querySelector("#message").innerHTML= data[passcode];
-            document.querySelector("#modal").classList.add("is-active");  
-        }
-        else{
+        const mypasscode = passcode_obj.value.toLowerCase();
+        const keys =  Object.keys(data);
+   
+        var found = false;
+         for(let val in keys ){
+             if(data[keys[val]].passcode.toLowerCase() === mypasscode){
+                 document.querySelector("#message").innerHTML= data[keys[val]].message;
+                 document.querySelector("#modal").classList.add("is-active");  
+                 found = true;
+                 break;
+             }
+         }
+        
+        if(found===false){
             document.querySelector("#message").innerHTML= "";
             alert("Incorrect Passcode. You have "+numAttemptsRemaining+" attempts remaining.")
         }
