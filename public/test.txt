@@ -1,1 +1,5 @@
 Have a nice day!
+
+Commands:
+firebase emulators:start --only hosting
+
