@@ -4,10 +4,10 @@ const getMessages = () => {
     
     messagesRef.on('value', (snapshot)=> {
         const data = snapshot.val()
-        const passcode = document.querySelector("#passcode");
+        const passcode = document.querySelector("#passcode").value.toLowerCase();
         const keys = Object.keys(data);
-        if(keys.indexOf(passcode.value)>-1){
-            document.querySelector("#message").innerHTML= data[passcode.value];
+        if(keys.indexOf(passcode)>-1){
+            document.querySelector("#message").innerHTML= data[passcode];
         }
         else{
             document.querySelector("#message").innerHTML= "";
